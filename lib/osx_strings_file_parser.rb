@@ -1,5 +1,13 @@
-require 'active_support'
-require 'iconv'
+#
+# Class OsxStringsFileParser
+# Description: This class allow to parse .strings file to JSON
+#
+# Original author: Cyril David (cyx)
+# Original repository: https://github.com/cyx/osx_strings_file_parser
+#
+# Updated by: William Mura (william57m)
+# Repository: https://github.com/william57m/osx_strings_file_parser
+#
 
 class Const
 
