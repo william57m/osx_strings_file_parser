@@ -26,14 +26,9 @@ class OsxStringsFileParser
     attr_accessor :value
     attr_accessor :comments
 
-    def initialize(key, value, comments)
+    def initialize(key, value)
         @key = key
         @value = value
-        @comments = comments
-    end
-
-    def attributes
-      { 'text' => @value, 'data' => { 'key' => @key, 'comments' => @comments }}
     end
 
   end
@@ -44,20 +39,10 @@ class OsxStringsFileParser
     @idx = -1
     @line = nil
     @pairs = []
-    @comments = []
 
     while next_line
-      if comment = @line.match(Const.REGEX_COMMENT_MULTI)
-        @comments << comment[1]
-        unless (@remainder = @line.gsub(Const.REGEX_COMMENT_MULTI, '').strip) == ''
-          if pair = @remainder.match(Const.REGEX_KEY_VALUE)
-            @pairs << KeyValuePair.new(pair[1], pair[3], @comments.dup)
-            @comments = []
-          end
-        end
-      elsif pair = @line.match(Const.REGEX_KEY_VALUE)
-        @pairs << KeyValuePair.new(pair[1], pair[3], @comments.dup)
-        @comments = []
+      if pair = @line.match(Const.REGEX_KEY_VALUE)
+        @pairs << KeyValuePair.new(pair[1], pair[3])
       end
     end
   end
@@ -71,7 +56,6 @@ class OsxStringsFileParser
   end
 
   def to_hash
-    return @hash if @hash
     @hash = Hash.new
     for key_value in lines
         @hash[key_value.key] = key_value.value
@@ -79,7 +63,7 @@ class OsxStringsFileParser
     return @hash
   end
 
-  def self.parse( data )
+  def self.parse(data)
     new(data).to_hash
   end
 end

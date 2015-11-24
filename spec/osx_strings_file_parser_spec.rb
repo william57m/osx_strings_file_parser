@@ -25,14 +25,6 @@ describe OsxStringsFileParser do
       @parser.lines.size.should == 189
     end
 
-    it "should attach the first comment to the first pair" do
-      @parser.lines.first.comments.first.should == " First Line is a Multi Line Comment "
-    end
-
-    it "should attach the inline comment in the line as the second comment" do
-      @parser.lines.first.comments[1].should == ' Yes we can have comments anywhere '
-    end
-
     describe "parse" do
       it "should just be a shortcut to instantiatiating and to_hash" do
         parser = OsxStringsFileParser.new( @data )
